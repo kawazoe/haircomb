@@ -137,5 +137,5 @@ const jsonRoot = oneOf([
 
 // ... and we export a function that will use our final parser to build our AST.
 export function parseJson(input: string): ParseResult<Char, IJson> {
-    return parse(input).with(jsonRoot);
+    return parse<IJson>(input).with(jsonRoot);
 }

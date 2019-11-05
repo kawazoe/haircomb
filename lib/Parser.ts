@@ -14,7 +14,7 @@ export abstract class Parser<TToken, T> {
      *      A collection of expected values for this parser.
      */
     protected constructor(
-        public readonly expected: Array<Expected<TToken>>
+        public readonly expected: Expected<TToken>[]
     ) {}
 
     /**

@@ -5,7 +5,7 @@ import {labelled} from "./labelled";
 import {pipe} from "./pipe";
 
 export function ofType<TToken, TSource, TResult>(
-    sentinel: TResult
+    sentinel: new() => TResult
 ): (parser: Parser<TToken, TSource>) => Parser<TToken, TResult> {
     return pipe(
         assert(

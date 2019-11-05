@@ -14,7 +14,7 @@ export interface IError<TToken> {
     /**
      * An expected value that would have prevented the error.
      */
-    readonly expected: Array<Expected<TToken>>;
+    readonly expected: Expected<TToken>[];
 
     /**
      * A message describing the error state.
@@ -31,7 +31,7 @@ export interface IError<TToken> {
      * @template TToken
      *      The type of token that the parser was expecting.
      */
-    withExpected(expected: Array<Expected<TToken>>): IError<TToken>;
+    withExpected(expected: Expected<TToken>[]): IError<TToken>;
 }
 
 /**
@@ -86,7 +86,7 @@ export class ParseError<TToken> implements IError<TToken> {
      */
     public constructor(
         public readonly cause: ErrorCause<TToken>,
-        public readonly expected: Array<Expected<TToken>>,
+        public readonly expected: Expected<TToken>[],
         public readonly message: string
     ) {}
 
@@ -100,7 +100,7 @@ export class ParseError<TToken> implements IError<TToken> {
      * @template TToken
      *      The type of token that the parser was expecting.
      */
-    public withExpected(expected: Array<Expected<TToken>>): IError<TToken> {
+    public withExpected(expected: Expected<TToken>[]): IError<TToken> {
         return new ParseError<TToken>(
             this.cause,
             expected,
@@ -131,15 +131,15 @@ export class ParseError<TToken> implements IError<TToken> {
         if (expected && expected.length) {
             str += "\n" + autoIndent() + "Expected:";
 
-            let renderExpect: (exs: Array<Expected<any>>) => void;
-            renderExpect = (exs: Array<Expected<any>>) => {
+            let renderExpect: (exs: Expected<any>[]) => void;
+            renderExpect = (exs: Expected<any>[]) => {
                 ++indentCount;
 
                 for (const expect of exs) {
-                    str += "\n" + autoIndent() + "<" + expect + ">";
+                    str += "\n" + autoIndent() + expect;
 
                     if (expect instanceof ExpectedParser && expect.expected.length !== 0) {
-                        str += "\n" + autoIndent() + "Due to: ";
+                        str += " - Due to:";
 
                         renderExpect(expect.expected);
                     }
@@ -176,7 +176,7 @@ export class UnknownError<TToken> implements IError<TToken> {
      * @template TToken
      *      The type of token that the parser was expecting.
      */
-    public readonly expected = [] as Array<Expected<TToken>>;
+    public readonly expected = [] as Expected<TToken>[];
 
     /**
      * A generic error message describing the error.

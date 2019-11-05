@@ -202,7 +202,7 @@ export function compose<A, B, C, D, E, F, G, H, I, R>(
  * @returns {(value: any) => any}
  *      Returns a function that transforms a value A into a result R.
  */
-export function compose(...fns: Array<(i: any) => any>): (value: any) => any;
-export function compose(...fns: Array<(i: any) => any>): (value: any) => any {
+export function compose(...fns: ((i: any) => any)[]): (value: any) => any;
+export function compose(...fns: ((i: any) => any)[]): (value: any) => any {
     return (t: any) => fns.reduce((prev, fn) => fn(prev), t);
 }
